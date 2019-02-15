@@ -50,13 +50,13 @@ workflows:
       - test:
           filters:
             tags:
-              only: /.*/
+              only:
+                - /.*/
       - release:
           requires:
             - test
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              only: master
+              only:
+                - /^v.*/
 

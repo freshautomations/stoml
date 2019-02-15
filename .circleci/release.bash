@@ -5,7 +5,7 @@ set -euo pipefail
 # This script runs in CircleCI, in a golang docker container from a folder that is a git repo.
 # The script expects the binaries to reside in the build folder.
 
-export TAG="`git tag --list --sort=v:refname --points-at | tail -1`"
+export TAG="`git tag --list --sort=v:refname --points-at HEAD | tail -1`"
 
 echo "TAG=$TAG"
 if [[ -z "$TAG" ]]; then

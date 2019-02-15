@@ -51,7 +51,7 @@ workflows:
           filters:
             tags:
               only:
-                - /.*/
+                - /^v.*/
       - release:
           requires:
             - test

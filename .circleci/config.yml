@@ -21,7 +21,7 @@ commands:
             OS=linux ARCH=amd64 go build -o build/stoml_linux_amd64 .
             OS=windows ARCH=386 go build -o build/stoml_windows_386 .
             OS=windows ARCH=amd64 go build -o build/stoml_windows_amd64 .
-            /bin/bash .circleci/release.sh
+            /bin/bash .circleci/release.bash
 
 # a reusable executor
 executors:
@@ -49,18 +49,14 @@ workflows:
     jobs:
       - test:
           filters:
-            branches:
-              ignore: release
-
+            tags:
+              only: /.*/
       - release:
-          # no heavy lifting if other portion fails
           requires:
             - test
           filters:
-            branches:
-              only:
-                - master
             tags:
-              only:
-                - v*
+              only: /^v.*/
+            branches:
+              only: master
 

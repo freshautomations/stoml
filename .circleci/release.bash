@@ -10,7 +10,7 @@ export TAG="`git tag --list --sort=v:refname --points-at HEAD | tail -1`"
 echo "TAG=$TAG"
 if [[ -z "$TAG" ]]; then
   echo "No tag to build."
-  exit 0
+  exit 1
 fi
 
 # Create GitHub release draft

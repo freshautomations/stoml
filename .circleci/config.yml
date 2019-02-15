@@ -1,0 +1,66 @@
+version: 2.1
+
+# Required in CircleCI: GITHUB_USERNAME, GITHUB_TOKEN
+
+# reusable commands
+commands:
+  test:
+    steps:
+      - run:
+          name: Test
+          command: |
+            go test ./...
+  release:
+    steps:
+      - run:
+          name: Release
+          command: |
+            OS=darwin ARCH=386 go build -o build/stoml_darwin_386 .
+            OS=darwin ARCH=amd64 go build -o build/stoml_darwin_amd64 .
+            OS=linux ARCH=386 go build -o build/stoml_linux_386 .
+            OS=linux ARCH=amd64 go build -o build/stoml_linux_amd64 .
+            OS=windows ARCH=386 go build -o build/stoml_windows_386 .
+            OS=windows ARCH=amd64 go build -o build/stoml_windows_amd64 .
+            /bin/bash .circleci/release.sh
+
+# a reusable executor
+executors:
+  go:
+    docker:
+      - image: golang
+    environment:
+      GO111MODULE=on
+
+jobs:
+  test:
+    executor: go
+    steps:
+      - checkout
+      - test
+  release:
+    executor: go
+    steps:
+      - checkout
+      - release
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: release
+
+      - release:
+          # no heavy lifting if other portion fails
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+            tags:
+              only:
+                - v*
+

@@ -53,8 +53,8 @@ workflows:
               only:
                 - /.*/
       - release:
-          requires:
-            - test
+#          requires:
+#            - test
           filters:
             tags:
               only:

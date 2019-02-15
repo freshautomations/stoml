@@ -6,7 +6,7 @@ The purpose is to easily parse INI files.
 TOML is a generalized INI file, so a simplified TOML parser can get this done.
 
 ## How to get it
-Check the [releases](/releases) page.
+Check the [releases](https://github.com/freshautomations/stoml/releases) page.
 
 ## How to build it from source
 ```cgo
@@ -30,18 +30,20 @@ It also means that more complex types like floats, lists or maps will be transla
 
 Examples for output:
 ```toml
+myint = +4
 #Export as "4"
-myint = 4
 
-#Export as "4"
-myfakeint = "4"
+myfakeint = "+4"
+#Export as "+4"
 
-#Export as "hello hi g'day howdy"
 mystring = "hello hi g'day howdy"
+#Export as "hello hi g'day howdy"
 
-#Export as "[1 2 3]" - note this one
 mylist = [1,2,3]
+#Export as "[1 2 3]"
 ```
+Note: floats that have 9 zeros after the dot (epsilon = 10^-9) are presented as integers.
+Viper's toml converter somehow converts big integers to float and presents them in the exponential format. This way we work around that.
 
 ## Cool side-effects
 The application will try to figure out what kind of file was it fed.
@@ -52,3 +54,4 @@ By default, any other file types (for example INI) are treated as TOML files.
 
 This side-effect is used during the release of the application to parse incoming JSON responses from the GitHub API.
 It's not a main feature though.
+

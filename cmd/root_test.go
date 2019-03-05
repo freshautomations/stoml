@@ -61,9 +61,14 @@ func TestRunRoot(t *testing.T) {
 	assert.Empty(t, result, "unexpected result")
 	assert.Nil(t, err, "unexpected error")
 
-	// Todo: FIX long int from json test
-	//result, err = RunRoot(cmd, []string{"../test.json", "id"})
-	//assert.Equal(t, "15576104", result, "unexpected result")
-	//assert.Nil(t, err, "unexpected error")
+	// slices with numbers
+	result, err = RunRoot(cmd, []string{"../test.ini", "slices.numbers"})
+	assert.Equal(t, "1 1 2 3 5", result, "unexpected result")
+	assert.Nil(t, err, "unexpected error")
+
+	// slices with numbers and strings
+	result, err = RunRoot(cmd, []string{"../test.ini", "slices.strings"})
+	assert.Equal(t, "The answer is 42", result, "unexpected result")
+	assert.Nil(t, err, "unexpected error")
 
 }

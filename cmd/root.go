@@ -1,13 +1,12 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/freshautomations/stoml/defaults"
 	"github.com/freshautomations/stoml/exit"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"math"
 	"os"
+	"strings"
 )
 
 const help = `Usage:
@@ -49,22 +48,7 @@ func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 		}
 	}
 
-	result := viper.Get(key)
-	if result == nil {
-		result = ""
-	}
-	if f32, IsFloat32 := result.(float32); IsFloat32 {
-		if _, frac := math.Modf(math.Abs(float64(f32))); frac < epsilon || frac > 1.0-epsilon {
-			result = int32(f32)
-		}
-	}
-	if f64, IsFloat64 := result.(float64); IsFloat64 {
-		if _, frac := math.Modf(math.Abs(f64)); frac < epsilon || frac > 1.0-epsilon {
-			result = int64(f64)
-		}
-	}
-
-	output = fmt.Sprintf("%v", result)
+	output = strings.Join(viper.GetStringSlice(key), " ")
 	return
 }
 

@@ -42,7 +42,7 @@ mystring = "hello hi g'day howdy"
 #Export as "hello hi g'day howdy"
 
 mylist = [1,2,3]
-#Export as "[1 2 3]"
+#Export as "1 2 3"
 ```
 Note: floats that have 9 zeros after the dot (epsilon = 10^-9) are presented as integers.
 Viper's toml converter somehow converts big integers to float and presents them in the exponential format. This way we work around that.

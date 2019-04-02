@@ -1,7 +1,7 @@
-# STOML - Simple TOML parser for Linux Shell
+# STOML - Simple TOML parser for the Linux Shell
 
 ## What is it
-STOML is a simple TOML file parser for Linux Shell (bash, ksh, csh, etc).
+STOML is a simple TOML file parser for the Linux Shell (bash, ksh, csh, etc).
 The purpose is to easily parse INI files.
 TOML is a generalized INI file, so a simplified TOML parser can get this done.
 
@@ -11,6 +11,7 @@ Tom's Obvious, Minimal Language is defined [here](https://github.com/toml-lang/t
 Check the [releases](https://github.com/freshautomations/stoml/releases) page.
 
 ## How to build it from source
+Install [Golang](https://golang.org/doc/install), then run:
 ```cgo
 GO111MODULE=on go get github.com/freshautomations/stoml.git
 ```

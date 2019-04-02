@@ -9,14 +9,6 @@ import (
 	"strings"
 )
 
-const help = `Usage:
-  stoml filename key [flags]
-
-Flags:
-  -h, --help      help for stoml
-      --version   version for stoml
-`
-
 const epsilon = 1e-9 // Margin of error
 
 func CheckArgs(cmd *cobra.Command, args []string) error {
@@ -70,7 +62,7 @@ Source and documentation is available at https://github.com/freshautomations/sto
 		Args: CheckArgs,
 		Run:  runRootWrapper,
 	}
-	rootCmd.SetUsageTemplate(help)
+	rootCmd.Use = "stoml <filename> <key>"
 
 	return rootCmd.Execute()
 }

@@ -71,4 +71,14 @@ func TestRunRoot(t *testing.T) {
 	assert.Equal(t, "The answer is 42", result, "unexpected result")
 	assert.Nil(t, err, "unexpected error")
 
+	// reading keys of a section
+	result, err = RunRoot(cmd, []string{"../test.ini", "slices"})
+	assert.Equal(t, "numbers strings", result, "unexpected result")
+	assert.Nil(t, err, "unexpected error")
+
+	// reading section names (keys of the root section)
+	result, err = RunRoot(cmd, []string{"../test.ini", "."})
+	assert.Equal(t, "blur district9 master_of_the_universe slices", result, "unexpected result")
+	assert.Nil(t, err, "unexpected error")
+
 }

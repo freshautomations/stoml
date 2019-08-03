@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -40,7 +41,29 @@ func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 		}
 	}
 
-	output = strings.Join(viper.GetStringSlice(key), " ")
+	switch viper.Get(key).(type) {
+	// If a section was requested, return the keys from that section
+	case map[string]interface{}:
+		var r []string
+		for k, _ := range viper.GetStringMapString(key) {
+			r = append(r,k)
+		}
+		sort.Strings(r)
+		output = strings.Join(r, " ")
+	// Return list of strings as result
+	default:
+		// Return all section names and root section keys if "." is provided
+		if key == "." {
+			var r []string
+			for k, _ := range viper.AllSettings() {
+				r = append(r,k)
+			}
+			sort.Strings(r)
+			output = strings.Join(r, " ")
+		} else {
+			output = strings.Join(viper.GetStringSlice(key), " ")
+		}
+	}
 	return
 }
 

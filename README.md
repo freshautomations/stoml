@@ -13,7 +13,7 @@ Check the [releases](https://github.com/freshautomations/stoml/releases) page.
 ## How to build it from source
 Install [Golang](https://golang.org/doc/install), then run:
 ```cgo
-GO111MODULE=on go get github.com/freshautomations/stoml.git
+GO111MODULE=on go get github.com/freshautomations/stoml
 ```
 
 ## How to use

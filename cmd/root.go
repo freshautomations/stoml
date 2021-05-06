@@ -12,20 +12,18 @@ import (
 
 const epsilon = 1e-9 // Margin of error
 
-func CheckArgs(cmd *cobra.Command, args []string) error {
+func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 	validateArgs := cobra.ExactArgs(2)
-	if err := validateArgs(cmd, args); err != nil {
-		return err
+	if err = validateArgs(cmd, args); err != nil {
+		return
 	}
 
 	fileName := args[0]
-	_, err := os.Stat(fileName)
-	return err
-}
-
-func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
-	fileName := args[0]
 	key := args[1]
+
+	if _, err = os.Stat(fileName); err != nil {
+		return
+	}
 
 	viper.SetConfigFile(fileName)
 	err = viper.ReadInConfig()
@@ -82,10 +80,10 @@ func Execute() error {
 		Short:   "STOML - simple toml parser for Shell",
 		Long: `A simplified TOML (also known as a more formal INI) parser for the Linux Shell.
 Source and documentation is available at https://github.com/freshautomations/stoml`,
-		Args: CheckArgs,
 		Run:  runRootWrapper,
 	}
 	rootCmd.Use = "stoml <filename> <key>"
+	rootCmd.PersistentFlags().BoolVarP(&exit.Quiet,"quiet", "q", false, "do not display error messages")
 
 	return rootCmd.Execute()
 }

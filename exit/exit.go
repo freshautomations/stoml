@@ -5,8 +5,12 @@ import (
 	"os"
 )
 
+var Quiet bool
+
 func Fail(err error) {
-	fmt.Println(err)
+	if !Quiet {
+		fmt.Println(err)
+	}
 	os.Exit(1)
 }
 

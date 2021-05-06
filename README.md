@@ -25,7 +25,7 @@ TOML can also have sections. They are referred to with dotted paths:
 ```bash
 export MYSECTIONVALUE=`stoml filename mysection.key`
 ```
-
+Error messages can be supressed using `-q`. This is useful when running in a script. 
 ## Caveats
 This is a `simple` implementation of parsing TOML.
 This means that it will work well with atomic types in the configuration, like string, int or boolean.

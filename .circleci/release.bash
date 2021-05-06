@@ -42,7 +42,7 @@ echo "Release ID: ${id}"
 
 # Upload binaries
 
-for binary in stoml_darwin_386 stoml_darwin_amd64 stoml_linux_386 stoml_linux_amd64 stoml_windows_386 stoml_windows_amd64
+for binary in stoml_darwin_amd64 stoml_linux_386 stoml_linux_amd64 stoml_windows_386 stoml_windows_amd64 stoml_linux_armv7
 do
 echo -ne "Processing ${binary}... "
 if [[ ! -f "build/${binary}" ]]; then

@@ -7,19 +7,6 @@ import (
 	"testing"
 )
 
-func TestCheckArgs(t *testing.T) {
-	cmd := &cobra.Command{
-		Args: func(cmd *cobra.Command, args []string) error {
-			return nil
-		},
-		Version: defaults.Version,
-	}
-
-	assert.NotNil(t, CheckArgs(cmd, []string{"../test.ini"}), "enough parameters")
-	assert.NotNil(t, CheckArgs(cmd, []string{"notexist.ini", "master_of_the_universe"}), "file found")
-	assert.Nil(t, CheckArgs(cmd, []string{"../test.ini", "master_of_the_universe"}), "parameter check")
-}
-
 func TestRunRoot(t *testing.T) {
 	cmd := &cobra.Command{
 		Args: func(cmd *cobra.Command, args []string) error {
@@ -30,6 +17,16 @@ func TestRunRoot(t *testing.T) {
 
 	var result interface{}
 	var err error
+
+	// Not enough arguments
+	result, err = RunRoot(cmd, []string{"../test.ini"})
+	assert.Empty(t, result, "unexpected result")
+	assert.NotNil(t, err, "unexpected error")
+
+	// Non-existent file
+	result, err = RunRoot(cmd, []string{"../notexist.ini", "master_of_the_universe"})
+	assert.Empty(t, result, "unexpected result")
+	assert.NotNil(t, err, "unexpected error")
 
 	// Root section
 	result, err = RunRoot(cmd, []string{"../test.ini", "master_of_the_universe"})

@@ -29,7 +29,7 @@ func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 	err = viper.ReadInConfig()
 	if err != nil {
 		if _, IsUnsupportedExtension := err.(viper.UnsupportedConfigError); IsUnsupportedExtension {
-			viper.SetConfigType("toml")
+			viper.SetConfigType("ini")
 			err = viper.ReadInConfig()
 			if err != nil {
 				return

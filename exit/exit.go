@@ -3,9 +3,11 @@ package exit
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 var Quiet bool
+var Strict bool
 
 func Fail(err error) {
 	if !Quiet {
@@ -15,6 +17,9 @@ func Fail(err error) {
 }
 
 func Succeed(result string) {
+	if Strict && strings.TrimSpace(result) == "" {
+		os.Exit(1)
+	}
 	fmt.Print(result)
 	os.Exit(0)
 }

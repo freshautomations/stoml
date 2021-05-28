@@ -12,6 +12,8 @@ import (
 
 const epsilon = 1e-9 // Margin of error
 
+var multiString bool
+
 func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 	validateArgs := cobra.ExactArgs(2)
 	if err = validateArgs(cmd, args); err != nil {
@@ -47,7 +49,11 @@ func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 			r = append(r,k)
 		}
 		sort.Strings(r)
-		output = strings.Join(r, " ")
+		if multiString {
+			output = strings.Join(r, "\n")
+		} else {
+			output = strings.Join(r, " ")
+		}
 	// Return list of strings as result
 	default:
 		// Return all section names and root section keys if "." is provided
@@ -57,9 +63,17 @@ func RunRoot(cmd *cobra.Command, args []string) (output string, err error) {
 				r = append(r,k)
 			}
 			sort.Strings(r)
-			output = strings.Join(r, " ")
+			if multiString {
+				output = strings.Join(r, "\n")
+			} else {
+				output = strings.Join(r, " ")
+			}
 		} else {
-			output = strings.Join(viper.GetStringSlice(key), " ")
+			if multiString {
+				output = viper.GetString(key)
+			} else {
+				output = strings.Join(viper.GetStringSlice(key), " ")
+			}
 		}
 	}
 	return
@@ -84,6 +98,8 @@ Source and documentation is available at https://github.com/freshautomations/sto
 	}
 	rootCmd.Use = "stoml <filename> <key>"
 	rootCmd.PersistentFlags().BoolVarP(&exit.Quiet,"quiet", "q", false, "do not display error messages")
+	rootCmd.PersistentFlags().BoolVarP(&exit.Strict,"strict", "s", false, "fail if result is empty, non-existent or just whitespaces")
+	rootCmd.PersistentFlags().BoolVarP(&multiString,"multi", "m", false, "read the result as-is, useful with multi-line entries")
 
 	return rootCmd.Execute()
 }

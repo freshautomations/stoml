@@ -19,6 +19,7 @@ commands:
             CGO_ENABLED=0 GOOS=linux   GOARCH=386   go build -ldflags "-extldflags static" -o build/stoml_linux_386 .
             CGO_ENABLED=0 GOOS=linux   GOARCH=amd64 go build -ldflags "-extldflags static" -o build/stoml_linux_amd64 .
             CGO_ENABLED=0 GOOS=linux   GOARCH=arm GOARM=7 go build -ldflags "-extldflags static" -o build/stoml_linux_armv7 .
+            CGO_ENABLED=0 GOOS=linux   GOARCH=arm64 GOARM=7 go build -ldflags "-extldflags static" -o build/stoml_linux_arm64 .
             CGO_ENABLED=0 GOOS=windows GOARCH=386   go build -ldflags "-extldflags static" -o build/stoml_windows_386 .
             CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-extldflags static" -o build/stoml_windows_amd64 .
             /bin/bash .circleci/release.bash
